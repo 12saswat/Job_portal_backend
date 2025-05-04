@@ -63,6 +63,41 @@ Returns authenticated user profile.
 - GET /user/getUsers
 Returns list of all users (admin only).
 
+## 📄 GET /applications
+
+**Description**:  
+Returns a list of all job applications with the applicant's name, email, and the role they applied for.
+
+**Method**: `GET`  
+**Access**: Admin (Requires JWT token)  
+**URL**: `/applications`
+
+### 🔐 Headers:
+
+### ✅ Sample Response:
+```json
+{
+  "applications": [
+    {
+      "name": "gudu",
+      "email": "gudu21@gmail.com",
+      "jobRole": "ui/ux"
+    },
+    {
+      "name": "new",
+      "email": "new32@gmail.com",
+      "jobRole": "developer"
+    },
+    {
+      "name": "Unknown",
+      "email": "Unknown",
+      "jobRole": "ui/ux"
+    }
+  ]
+}
+
+
+
 ### Job Application Route
 - POST /user/apply_job
 Submit a job application with a resume (file upload).
