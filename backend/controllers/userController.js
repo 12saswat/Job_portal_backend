@@ -78,13 +78,17 @@ exports.loginUser = async (req, res) => {
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(userId).select("-password");
 
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    res.status(200).json({ msg: "User profile fetched", user });
+    const appliedJob = await jobModel
+      .find({ user: userId })
+      .select("-resume.data");
+
+    res.status(200).json({ msg: "User profile fetched", user, appliedJob });
   } catch (err) {
     console.log(err);
     res.status(500).json({ msg: "Server error" });
