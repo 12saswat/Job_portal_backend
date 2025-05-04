@@ -122,10 +122,22 @@ exports.applyJob = async (req, res) => {
 };
 
 exports.getAllApplications = async (req, res) => {
-  const applications = await jobModel
-    .find()
-    .select("-resume.data") // Exclude resume binary data
-    .populate("user", "name email role");
+  try {
+    const applications = await jobModel
+      .find()
+      .select("role") // Select only the job role (not full application)
+      .populate("user", "name email"); // Populate user name and email only
 
-  res.json({ applications });
+    // Simplify the response
+    const formatted = applications.map((app) => ({
+      name: app.user?.name || "Unknown",
+      email: app.user?.email || "Unknown",
+      jobRole: app.role,
+    }));
+
+    res.json({ applications: formatted });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch applications" });
+  }
 };
