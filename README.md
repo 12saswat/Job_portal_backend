@@ -63,7 +63,7 @@ Returns authenticated user profile.
 - GET /user/getUsers
 Returns list of all users (admin only).
 
-###Job Application Route
+### Job Application Route
 - POST /user/apply_job
 Submit a job application with a resume (file upload).
 
