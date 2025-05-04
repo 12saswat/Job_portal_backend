@@ -30,7 +30,6 @@ This is a Node.js + Express backend server for user registration, login, authent
 
 ### 1. Clone the repository
 
-
 git clone <your-repo-url>
 cd your-project-directory
 
@@ -49,19 +48,21 @@ SECRET_KEY=your_secret_key_here
 npm start
 
 ### 📁 API Endpoints
+
 ## 🔐 Auth Routes
 
 - POST /user/register
-Registers a new user.
+  Registers a new user.
 - POST /user/login
-Logs in a user and returns a token.
+  Logs in a user and returns a token.
 - GET /user/profile
-Returns authenticated user profile.
+  Returns authenticated user profile.
+  also return there applied jobs
 
-##  Admin Routes
+## Admin Routes
 
 - GET /user/getUsers
-Returns list of all users (admin only).
+  Returns list of all users (admin only).
 
 ## 📄 GET /applications
 
@@ -75,6 +76,7 @@ Returns a list of all job applications with the applicant's name, email, and the
 ### 🔐 Headers:
 
 ### ✅ Sample Response:
+
 ```json
 {
   "applications": [
@@ -119,3 +121,4 @@ employee
 Tokens are verified via middleware and access is restricted based on roles.
 
 
+```
