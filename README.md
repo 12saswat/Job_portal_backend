@@ -48,8 +48,8 @@ SECRET_KEY=your_secret_key_here
 
 npm start
 
-###📁 API Endpoints
-##🔐 Auth Routes
+### 📁 API Endpoints
+## 🔐 Auth Routes
 
 - POST /user/register
 Registers a new user.
