@@ -7,6 +7,7 @@ const {
   loginUser,
   getUserProfile,
   applyJob,
+  getAllApplications,
 } = require("../controllers/userController");
 const requireRole = require("../middlesware/role");
 const multer = require("multer");
@@ -31,6 +32,12 @@ router.post(
   requireRole("employee"),
   upload.single("resume"),
   applyJob
+);
+router.get(
+  "/applications",
+  verifyToken,
+  requireRole("admin"),
+  getAllApplications
 );
 
 module.exports = router;

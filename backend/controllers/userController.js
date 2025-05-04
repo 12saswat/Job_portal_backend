@@ -101,6 +101,7 @@ exports.applyJob = async (req, res) => {
     }
 
     const newApplication = new jobModel({
+      user: req.user._id,
       fullName,
       PhoneNo,
       email,
@@ -118,4 +119,13 @@ exports.applyJob = async (req, res) => {
     console.log(err);
     res.status(500).json({ error: "Failed to submit job application" });
   }
+};
+
+exports.getAllApplications = async (req, res) => {
+  const applications = await jobModel
+    .find()
+    .select("-resume.data") // Exclude resume binary data
+    .populate("user", "name email role");
+
+  res.json({ applications });
 };

@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const jobSchema = mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user", // Reference to the User model
+    required: true,
+  },
   fullName: {
     type: String,
     required: true,
