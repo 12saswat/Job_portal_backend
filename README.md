@@ -77,7 +77,10 @@ npm start
 - GET /user/applications
   Returns list of all application that applied by user (admin only).
 
-- PATCH /user/accepted
+- GET /user/view_appliction/:jobId
+  Returns select application that applied by user (admin only).
+
+- PATCH /user/accepted/:id
   Update the status pending > accpted
 
 - PATCH /user/rejected/:id
