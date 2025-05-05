@@ -111,7 +111,7 @@ Returns a list of all job applications with the applicant's name, email, and the
     },
     "Profile": {
       "method": "GET",
-      "url": "http://localhost:4000/user/profile/:id",
+      "url": "http://localhost:4000/user/profile",
       "response": {
         "msg": "User profile fetched",
         "user": {
