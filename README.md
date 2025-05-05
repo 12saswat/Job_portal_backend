@@ -58,6 +58,7 @@ POST /user/login - Logs in a user and returns a token
 POST /user/apply_job - Apply a job  
 GET /user/profile/:id - Returns authenticated user profile  
  (also returns their applied jobs)
+GET /user/jobs - Return list of jobs (employee and admin)
 
 ## Admin Routes
 
@@ -66,17 +67,7 @@ GET /user/applications - Returns list of all applications (admin only)
 GET /user/view_application/:jobId - Returns selected application details (admin only)  
 PATCH /user/accepted/:id - Update the status from pending → accepted  
 PATCH /user/rejected/:id - Update the status from pending → rejected
-
-## 📄 GET /applications
-
-**Description**:  
-Returns a list of all job applications with the applicant's name, email, and the role they applied for.
-
-**Method**: `GET`  
-**Access**: Admin (Requires JWT token)  
-**URL**: `/applications`
-
-### 🔐 Headers:
+POST /user/post_job - Post a job (admin only)
 
 ### ✅ Sample Response:
 
@@ -158,6 +149,22 @@ Returns a list of all job applications with the applicant's name, email, and the
       "response": {
         "message": "Application submitted successfully"
       }
+    },
+    "ViewJobs": {
+      "method": "GET",
+      "url": "http://localhost:4000/api/jobs/",
+      "description": "Retrieve a list of all available job posts. Publicly accessible.",
+      "response": {
+        "jobs": [
+          {
+            "_id": "681835af9a2ef0b71bdfd706",
+            "title": "Frontend Developer",
+            "description": "We are looking for a talented frontend developer to join our team.",
+            "role": "developer",
+            "location": "Remote"
+          }
+        ]
+      }
     }
   },
   "AdminRoutes": {
@@ -222,6 +229,31 @@ Returns a list of all job applications with the applicant's name, email, and the
       "application": {
         "_id": "681835af9a2ef0b71bdfd706",
         "status": "rejected"
+      }
+    }
+  },
+  "PostJobs": {
+    "method": "POST",
+    "url": "http://localhost:4000/api/jobposts/create",
+    "description": "Create a new job post. Only accessible to admins.",
+    "requestBody": {
+      "title": "Frontend Developer",
+      "description": "Looking for a skilled frontend developer...",
+      "requirements": ["HTML", "CSS", "JavaScript"],
+      "role": "developer",
+      "location": "Remote",
+      "salaryRange": "$60k - $80k",
+      "deadline": "2025-06-01"
+    },
+    "response": {
+      "message": "Job posted successfully",
+      "jobPost": {
+        "_id": "681835af9a2ef0b71bdfd706",
+        "title": "Frontend Developer",
+        "role": "developer",
+        "location": "Remote",
+        "deadline": "2025-06-01T00:00:00.000Z",
+        "createdAt": "2025-05-05T10:00:00.000Z"
       }
     }
   }
