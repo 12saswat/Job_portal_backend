@@ -147,6 +147,26 @@ exports.getAllApplications = async (req, res) => {
   }
 };
 
+exports.getSelectApplication = async (req, res) => {
+  try {
+    const applicationId = req.params.id;
+
+    const application = await jobModel
+      .findById(applicationId)
+      .select("-resume.data")
+      .populate("user", "name email");
+
+    if (!application) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    res.status(200).json({ message: "Application found", application });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch application" });
+  }
+};
+
 // To accept the job application
 exports.ToAcceptApplication = async (req, res) => {
   try {

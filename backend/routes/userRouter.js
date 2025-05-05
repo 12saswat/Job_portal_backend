@@ -10,6 +10,7 @@ const {
   getAllApplications,
   ToAcceptApplication,
   ToRejectApplication,
+  getSelectApplication,
 } = require("../controllers/userController");
 const requireRole = require("../middlesware/role");
 const multer = require("multer");
@@ -41,7 +42,12 @@ router.get(
   requireRole("admin"),
   getAllApplications
 );
-// router.get("/view_appliction", getSelectedApplication);
+router.get(
+  "/view_appliction/:id",
+  verifyToken,
+  requireRole("admin"),
+  getSelectApplication
+);
 router.patch(
   "/accepted/:id",
   verifyToken,
