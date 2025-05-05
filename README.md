@@ -82,46 +82,148 @@ Returns a list of all job applications with the applicant's name, email, and the
 
 ```json
 {
-  "applications": [
-    {
-      "name": "gudu",
-      "email": "gudu21@gmail.com",
-      "jobRole": "ui/ux"
+  "UserRoutes": {
+    "Register": {
+      "method": "POST",
+      "url": "http://localhost:4000/user/register",
+      "body": {
+        "name": "new1",
+        "email": "new132@gmail.com",
+        "password": "123",
+        "role": "Employee"
+      }
     },
-    {
-      "name": "new",
-      "email": "new32@gmail.com",
-      "jobRole": "developer"
+    "Login": {
+      "method": "POST",
+      "url": "http://localhost:4000/user/login",
+      "body": {
+        "email": "saswatp813@gmail.com",
+        "password": "123"
+      },
+      "response": {
+        "msg": "Login successful",
+        "user": {
+          "email": "saswatp813@gmail.com",
+          "role": "admin"
+        },
+        "token": "......"
+      }
     },
-    {
-      "name": "Unknown",
-      "email": "Unknown",
-      "jobRole": "ui/ux"
+    "Profile": {
+      "method": "GET",
+      "url": "http://localhost:4000/user/profile",
+      "response": {
+        "msg": "User profile fetched",
+        "user": {
+          "_id": "6818350e9a2ef0b71bdfd6fa",
+          "name": "new1",
+          "email": "new132@gmail.com",
+          "role": "employee",
+          "__v": 0
+        },
+        "appliedJob": [
+          {
+            "resume": {
+              "contentType": "application/pdf"
+            },
+            "_id": "681835af9a2ef0b71bdfd706",
+            "user": "6818350e9a2ef0b71bdfd6fa",
+            "fullName": "new1",
+            "PhoneNo": "637282095",
+            "email": "new123@gmail.com",
+            "description": "hey am just checking",
+            "role": "ui/ux",
+            "__v": 0,
+            "status": "accepted"
+          }
+        ]
+      }
+    },
+    "ApplyJob": {
+      "method": "POST",
+      "url": "http://localhost:4000/user/apply_job",
+      "fields": {
+        "user": "req.user._id",
+        "fullName": "string",
+        "PhoneNo": "string",
+        "email": "string",
+        "description": "string",
+        "role": "string",
+        "status": "pending",
+        "resume": {
+          "data": "Buffer",
+          "contentType": "application/pdf"
+        }
+      },
+      "response": {
+        "message": "Application submitted successfully"
+      }
     }
-  ]
+  },
+  "AdminRoutes": {
+    "ApplicationsList": {
+      "method": "GET",
+      "url": "http://localhost:4000/user/applications",
+      "access": "admin only",
+      "response": {
+        "applications": [
+          {
+            "name": "new1",
+            "email": "new132@gmail.com",
+            "jobRole": "ui/ux"
+          }
+        ]
+      }
+    }
+  },
+  "ViewApplication": {
+    "method": "GET",
+    "url": "http://localhost:4000/user/view_appliction/:Id",
+    "response": {
+      "message": "Application found",
+      "application": {
+        "resume": {
+          "contentType": "application/pdf"
+        },
+        "_id": "681835af9a2ef0b71bdfd706",
+        "user": {
+          "_id": "6818350e9a2ef0b71bdfd6fa",
+          "name": "new1",
+          "email": "new132@gmail.com"
+        },
+        "fullName": "new1",
+        "PhoneNo": "637282095",
+        "email": "new123@gmail.com",
+        "description": "hey am just checking",
+        "role": "ui/ux",
+        "__v": 0,
+        "status": "rejected"
+      }
+    }
+  },
+  "AcceptApplication": {
+    "method": "PATCH",
+    "url": "http://localhost:4000/user/accepted/:id",
+    "description": "Accept a job application by updating its status to 'accepted'.",
+    "response": {
+      "message": "Application accepted",
+      "application": {
+        "_id": "681835af9a2ef0b71bdfd706",
+        "status": "accepted"
+      }
+    }
+  },
+  "RejectApplication": {
+    "method": "PATCH",
+    "url": "http://localhost:4000/user/rejected/:id",
+    "description": "Reject a job application by updating its status to 'rejected'.",
+    "response": {
+      "message": "Application accepted",
+      "application": {
+        "_id": "681835af9a2ef0b71bdfd706",
+        "status": "rejected"
+      }
+    }
+  }
 }
-
-
-
-### Job Application Route
-- POST /user/apply_job
-Submit a job application with a resume (file upload).
-
-Authorization: Bearer <employee-token>
-Form Data (multipart/form-data):
-
-fullName (string)
-PhoneNo (string)
-email (string)
-description (string)
-role (string)
-resume (file)
-
-### 🔐 Role-Based Access
-## Supported roles:
-admin
-employee
-Tokens are verified via middleware and access is restricted based on roles.
-
-
 ```
