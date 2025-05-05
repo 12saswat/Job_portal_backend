@@ -11,6 +11,8 @@ const {
   ToAcceptApplication,
   ToRejectApplication,
   getSelectApplication,
+  jobPosting,
+  jobLists,
 } = require("../controllers/userController");
 const requireRole = require("../middlesware/role");
 const multer = require("multer");
@@ -60,5 +62,11 @@ router.patch(
   requireRole("admin"),
   ToRejectApplication
 );
+
+// For posting the jobs
+router.post("/post_job", verifyToken, requireRole("admin"), jobPosting);
+
+// To get the jobs
+router.get("/jobs", verifyToken, jobLists);
 
 module.exports = router;

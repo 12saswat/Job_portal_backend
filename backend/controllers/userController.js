@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModels");
 const jobModel = require("../models/jobModel");
+const jobPostModel = require("../models/jobPostModel");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -32,6 +33,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+// Get all users
 exports.getUsers = async (req, res) => {
   try {
     const users = await userModel.find();
@@ -74,6 +76,7 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+// for prifile
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -94,6 +97,7 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
+// For apply form
 exports.applyJob = async (req, res) => {
   try {
     const { fullName, email, PhoneNo, description, role, resume } = req.body;
@@ -125,6 +129,7 @@ exports.applyJob = async (req, res) => {
   }
 };
 
+// for application Lists
 exports.getAllApplications = async (req, res) => {
   try {
     const applications = await jobModel
@@ -146,6 +151,7 @@ exports.getAllApplications = async (req, res) => {
   }
 };
 
+// To view the application
 exports.getSelectApplication = async (req, res) => {
   try {
     const applicationId = req.params.id;
@@ -195,5 +201,67 @@ exports.ToRejectApplication = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "internal server error" });
+  }
+};
+
+// for job posting (admin only)
+exports.jobPosting = async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      requirements,
+      role,
+      location,
+      salaryRange,
+      deadline,
+    } = req.body;
+
+    if (
+      !title ||
+      !description ||
+      !requirements ||
+      !role ||
+      !location ||
+      !salaryRange ||
+      !deadline
+    ) {
+      return res.status(404).json({ msg: "All field are required" });
+    }
+
+    const user = await userModel.findById(req.user.id);
+    if (!user || user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ msg: "Access denied. Only admin can post a job " });
+    }
+    const jobPost = await new jobPostModel({
+      admin: user._id,
+      title,
+      description,
+      requirements,
+      role,
+      location,
+      salaryRange,
+      deadline,
+    });
+
+    await jobPost.save();
+    return res.status(200).json({ msg: "Job posted success", jobPost });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: "Internal server error" });
+  }
+};
+
+exports.jobLists = async (req, res) => {
+  try {
+    const jobs = await jobPostModel
+      .find()
+      .select("title description role location"); // show admin's name and email
+    res.status(200).json({ jobs });
+  } catch (error) {
+    console.error("Error fetching job posts:", error);
+    res.status(500).json({ message: "Server error while fetching jobs" });
   }
 };
