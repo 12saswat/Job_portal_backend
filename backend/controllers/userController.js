@@ -111,6 +111,7 @@ exports.applyJob = async (req, res) => {
       email,
       description,
       role,
+      status: "pending",
       resume: {
         data: req.file.buffer,
         contentType: req.file.mimetype,
@@ -143,5 +144,37 @@ exports.getAllApplications = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch applications" });
+  }
+};
+
+// To accept the job application
+exports.ToAcceptApplication = async (req, res) => {
+  try {
+    const updated = await jobModel
+      .findByIdAndUpdate(req.params.id, { status: "accepted" }, { new: true })
+      .select("status");
+    if (!updated) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+    res.json({ message: "Application accepted", application: updated });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "internal server error" });
+  }
+};
+
+// To reject the job application
+exports.ToRejectApplication = async (req, res) => {
+  try {
+    const updated = await jobModel
+      .findByIdAndUpdate(req.params.id, { status: "rejected" }, { new: true })
+      .select("status");
+    if (!updated) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+    res.json({ message: "Application accepted", application: updated });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "internal server error" });
   }
 };

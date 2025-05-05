@@ -30,6 +30,11 @@ const jobSchema = mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
+  status: {
+    type: String,
+    enum: ["pending", "accepted", "rejected"],
+    default: "pending",
+  },
 });
 
 module.exports = mongoose.model("Job", jobSchema);

@@ -8,6 +8,8 @@ const {
   getUserProfile,
   applyJob,
   getAllApplications,
+  ToAcceptApplication,
+  ToRejectApplication,
 } = require("../controllers/userController");
 const requireRole = require("../middlesware/role");
 const multer = require("multer");
@@ -38,6 +40,19 @@ router.get(
   verifyToken,
   requireRole("admin"),
   getAllApplications
+);
+// router.get("/view_appliction", getSelectedApplication);
+router.patch(
+  "/accepted/:id",
+  verifyToken,
+  requireRole("admin"),
+  ToAcceptApplication
+);
+router.patch(
+  "/rejected/:id",
+  verifyToken,
+  requireRole("admin"),
+  ToRejectApplication
 );
 
 module.exports = router;
