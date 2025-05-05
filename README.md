@@ -62,7 +62,7 @@ npm start
 - POST /user/apply_job
   Apply a job
 
-- GET /user/profile
+- GET /user/profile/:id
   Returns authenticated user profile.
   also return there applied jobs
 
@@ -77,10 +77,10 @@ npm start
 - GET /user/applications
   Returns list of all application that applied by user (admin only).
 
-- PATCH /user/accepted
+- PATCH /user/accepted/:id
   Update the status pending > accpted
 
-- PATCH /user/rejected
+- PATCH /user/rejected/:id
   Update the status pending > rejected
 
 ## 📄 GET /applications
