@@ -51,40 +51,21 @@ npm start
 
 ## 🔐 Auth Routes
 
-## user Routes
+## User Routes
 
-- POST /user/register
-  Registers a new user.
-
-- POST /user/login
-  Logs in a user and returns a token.
-
-- POST /user/apply_job
-  Apply a job
-
-- GET /user/profile/:id
-  Returns authenticated user profile.
-  also return there applied jobs
+POST /user/register - Registers a new user  
+POST /user/login - Logs in a user and returns a token  
+POST /user/apply_job - Apply a job  
+GET /user/profile/:id - Returns authenticated user profile  
+ (also returns their applied jobs)
 
 ## Admin Routes
 
-- GET /user/getUsers
-  Returns list of all users (admin only).
-
-- GET /user/getUsers
-  Returns list of all users (admin only).
-
-- GET /user/applications
-  Returns list of all application that applied by user (admin only).
-
-- GET /user/view_appliction/:jobId
-  Returns select application that applied by user (admin only).
-
-- PATCH /user/accepted/:id
-  Update the status pending > accpted
-
-- PATCH /user/rejected/:id
-  Update the status pending > rejected
+GET /user/getUsers - Returns list of all users (admin only)  
+GET /user/applications - Returns list of all applications (admin only)  
+GET /user/view_application/:jobId - Returns selected application details (admin only)  
+PATCH /user/accepted/:id - Update the status from pending → accepted  
+PATCH /user/rejected/:id - Update the status from pending → rejected
 
 ## 📄 GET /applications
 
